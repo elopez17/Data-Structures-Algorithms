@@ -4,5 +4,67 @@
 #	Return a list of the values of all nodes that have a distance k 
 # from the target node. The answer can be returned in any order.
 
+class TreeNode
+  attr_accessor :left, :right, :val
+  def initialize(val)
+    @val = val
+    @right, @left = nil, nil
+  end
+end
+
+TreeNode.class_eval {
+  attr_accessor :parent
+}
+
+def set_parent(child, parent)
+  child.parent = parent
+end
+
+def dfs(node)
+  if node.left
+    set_parent(node.left, node)
+    dfs(node.left)
+  end
+  if node.right
+    set_parent(node.right, node)
+    dfs(node.right)
+  end
+end
+
+def bfs(target, k)
+  queue, dist, children = [ target ], 1, []
+  visited = Hash.new(false)
+  visited[target] = true
+
+  loop do
+    while queue.length > 0
+      node = queue.shift
+      if node.left && visited[node.left] == false
+        visited[node.left] = true
+        children.push(node.left)
+      end
+      if node.right && visited[node.right] == false
+        visited[node.right] = true
+        children.push(node.right)
+      end
+      if node.parent && visited[node.parent] == false
+        visited[node.parent] = true
+        children.push(node.parent)
+      end
+    end
+
+    queue = children
+    dist += 1
+    children = []
+    break if dist == k
+  end
+  
+  queue.map { |node| node.val }
+end
+
 def distance_k(root, target, k)
+  return [ target.val ] if k == 0
+
+  dfs(root)
+  bfs(target, k)
 end
