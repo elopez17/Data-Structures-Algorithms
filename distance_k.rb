@@ -2,7 +2,20 @@
 # and an integer value k.
 
 #	Return a list of the values of all nodes that have a distance k 
-# from the target node. The answer can be returned in any order.
+# from the target node.
+
+# The entry method is defined as distance_k
+# This method begins with an edge case check,
+# then calls dfs.
+
+# dfs starts at the root of the binary tree and turns it into
+# a graph by adding an additional attribute 'parent' to
+# each node. 
+
+# lastly bfs is called on the graph
+
+# Time complexity O(n), n = number of nodes in tree
+# Space complexity O(n)
 
 class TreeNode
   attr_accessor :left, :right, :val
@@ -16,9 +29,13 @@ TreeNode.class_eval {
   attr_accessor :parent
 }
 
-def set_parent(child, parent)
-  child.parent = parent
+def distance_k(root, target, k)
+  return [ target.val ] if k == 0
+
+  dfs(root)
+  bfs(target, k)
 end
+
 
 def dfs(node)
   if node.left
@@ -30,6 +47,11 @@ def dfs(node)
     dfs(node.right)
   end
 end
+
+def set_parent(child, parent)
+  child.parent = parent
+end
+
 
 def bfs(target, k)
   queue, dist, children = [ target ], 1, []
@@ -58,13 +80,6 @@ def bfs(target, k)
     children = []
     break if dist == k
   end
-  
+
   queue.map { |node| node.val }
-end
-
-def distance_k(root, target, k)
-  return [ target.val ] if k == 0
-
-  dfs(root)
-  bfs(target, k)
 end
