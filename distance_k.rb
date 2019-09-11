@@ -12,7 +12,8 @@
 # a graph by adding an additional attribute 'parent' to
 # each node. 
 
-# lastly bfs is called on the graph
+# lastly bfs is called on the graph to find all nodes with
+# distance k from target node
 
 # Time complexity O(n), n = number of nodes in tree
 # Space complexity O(n)
