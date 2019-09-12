@@ -1,3 +1,25 @@
+# Add and Search Word - data structure design
+
+# Design a data structure that supports the following two operations
+# void  add_word(word)
+# bool  search(word)
+
+# search(word) can search a literal string or a regular expression
+# string containing only letters a-z or '.'
+# A '.' means it can represent any one letter
+
+# For this problem, I implemented an information retrieval data structure
+# also called a Trie. In this trie, the next level of nodes are 
+# accessed through a hash where the key is the letter of the 
+# node and the value is the node itself.
+
+# Insertion O(n), where n = word.length
+# Search best case: O(n)
+# Search worst case: O(L), where L = first n levels of trie
+# Space Complexity O(n)
+
+
+
 class WordDictionary
   def initialize()
     @trie = Node.new('*')
@@ -46,3 +68,22 @@ class Node
     @next = {}
   end
 end
+
+ 
+dictionary = WordDictionary.new()
+dictionary.add_word("bad")
+dictionary.add_word("dad")
+dictionary.add_word("mad")
+puts "added words: bad, dad, mad\n\n"
+
+result = dictionary.search("pad")
+puts "search(\"pad\") returned: #{result}"
+
+result = dictionary.search("bad")
+puts "search(\"bad\") returned: #{result}"
+
+result = dictionary.search(".ad")
+puts "search(\".ad\") returned: #{result}"
+
+result = dictionary.search("b..")
+puts "search(\"b..\") returned: #{result}"
